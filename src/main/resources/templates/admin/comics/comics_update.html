@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>ComicsUpDate</title>
+</head>
+<body>
+<a href="/">Start Page</a><br>
+<a href="/admin">Main menu</a>
+<a href="/search">Search</a>
+<br>
+<form th:method="GET">
+    <input name="inquiry" placeholder="Search" th:value="${inquiry}">
+    <input type="submit" value="Search">
+    <div th:if="${inquiry}!=null">
+        <tr th:each="comics : ${comics}">
+            <th>
+                <a th:href="@{update?inquiry={inquiry}&id={id}
+                (inquiry=${inquiry},id=${comics.getId()})}"
+                   th:text="|${comics.getComicTitle()} (${comics.getCreated()}) #${comics.getIssue()}|"></a>
+            </th>
+            <br>
+        </tr>
+    </div>
+</form>
+<form th:object="${comics}" th:method="PUT">
+    <div th:if="${id} != null">
+        <input type="submit" value="UpDate">
+        <table border="1" width="1%" cellpadding="5">
+            <tr>
+                <td><label>ComicsTitle</label></td>
+                <td><input type="text" th:field="*{comicTitle}" id="comictitle" placeholder="comictitle"></td>
+            </tr>
+            <tr>
+                <td><label>Issue</label></td>
+                <td><input type="text" th:field="*{issue}" id="issue" placeholder="issue"></td>
+            </tr>
+            <tr>
+                <td><label>Writer</label></td>
+                <td><input type="text" th:field="*{writer}" id="writer" placeholder="writer"></td>
+            </tr>
+            <tr>
+                <td><label>Penciler</label></td>
+                <td><input type="text" th:field="*{penciler}" id="penciler" placeholder="penciler"></td>
+            </tr>
+            <tr>
+                <td><label>Published</label></td>
+                <td><input type="date" th:field="*{published}" id="published" placeholder="published"></td>
+            </tr>
+            <tr>
+                <td><label>Created</label></td>
+                <td><input type="text" th:field="*{created}" id="created" placeholder="created"></td>
+            </tr>
+        </table>
+        <input type="submit" value="UpDate">
+    </div>
+</form>
+</body>
+</html>

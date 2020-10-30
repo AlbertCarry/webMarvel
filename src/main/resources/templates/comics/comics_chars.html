@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>ComicsChars</title>
+</head>
+<body>
+<a href="/">Start Page</a><br>
+<a href="/characters">Characters</a>
+<a href="/comics">Comics</a>
+<a href="/search">Search</a><br>
+
+<br>
+<br>
+<form th:method="GET">
+<table  width="10%">
+    <thead>
+    <tr>
+        <th:block th:each="chars : ${chars}">
+            <th><a th:href="@{/characters/{id}(id=${chars.getId()})}"
+                   th:utext="|${chars.getAliases()} &lt;br/&gt; ${chars.getName()}   ${chars.getSecondName()}|"
+            > aliases</a>
+            </th>
+        </th:block>
+    </tr>
+    </thead>
+
+    <tr>
+        <th:block th:each="chars : ${chars}">
+            <th>
+                <img th:href="@{/characters/{id}(id=${chars.getId()})}" th:src="|/img/characters/img/${chars.getAliases()}.jpg|"
+                     width="189" height="255" alt="No picture at the moment"/>
+            </th>
+        </th:block>
+    </tr>
+</table>
+</form>
+</body>
+</html>

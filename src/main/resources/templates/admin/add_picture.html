@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>AddPicture</title>
+</head>
+<body>
+<a href="/">Start Page</a><br>
+<a href="/admin">Main menu</a>
+<a href="/search">Search</a>
+<br>
+<form th:method="GET">
+    <a th:href="@{?inquiry=comics}">Comics's Picture</a>
+    <a th:href="@{?inquiry=characters}">Character's Picture</a>
+</form>
+<div th:if="${inquiry} == 'comics'">
+    <form enctype="multipart/form-data" th:method="POST">
+        <table border="1" width="1%" cellpadding="5">
+            <tr>
+                <td><label>File</label></td>
+                <td><input required type="file" name="file"></td>
+            </tr>
+            <tr>
+                <td><label>ComicTitle</label></td>
+                <td><input required name="name" type="text" id="comicTitle" placeholder="comicTitle"></td>
+            </tr>
+            <tr>
+                <td><label>Created</label></td>
+                <td><input required name="created" type="text" id="created" placeholder="created"></td>
+            </tr>
+            <tr>
+                <td><label>Issue</label></td>
+                <td><input required name="issue" type="text" id="issue" placeholder="issue"></td>
+            </tr>
+        </table>
+        <input type="submit" value="Add Picture">
+    </form>
+</div>
+<div th:if="${inquiry} == 'characters'">
+    <form enctype="multipart/form-data" th:method="POST">
+        <table border="1" width="1%" cellpadding="5">
+            <tr>
+                <td><label>File</label></td>
+                <td><input required type="file" name="file"></td>
+            </tr>
+            <tr>
+                <td><label>Character Aliases</label></td>
+                <td><input required name="name" type="text" id="CharAliases" placeholder="CharAliases"></td>
+            </tr>
+        </table>
+        <input type="submit" value="Add Picture">
+    </form>
+</div>
+</body>
+</html>

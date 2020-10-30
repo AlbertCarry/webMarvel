@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>CharsCreate</title>
+</head>
+<body>
+<a href="/">Start Page</a><br>
+<a href="/admin">Main menu</a>
+<a href="/search">Search</a>
+<br>
+<form  th:object="${characters}" th:method="POST">
+    <input type="submit" value="Add Character"><br>
+    <a th:if="${hardCase} < 1">problems with character uniqueness</a>
+    <table border="1" width="1%" cellpadding="5">
+        <tr>
+            <td> <label>Name</label></td>
+            <td><input type="text" th:field="*{name}" id="Name" placeholder="Name"></td>
+        </tr>
+        <tr>
+            <td> <label>SecondName</label></td>
+            <td> <input type="text" th:field="*{secondName}" id="SecondName" placeholder="SecondName"></td>
+        </tr>
+        <tr>
+            <td> <label>Aliases</label></td>
+            <td> <input required type="text" th:field="*{aliases}" id="Aliases" placeholder="Aliases"></td>
+        </tr>
+        <tr>
+            <td> <label>OtherAliases</label></td>
+            <td> <input type="text" th:field="*{otherAliases}" id="OtherAliases" placeholder="OtherAliases"></td>
+        </tr>
+        <tr>
+            <td> <label>Height</label></td>
+            <td> <input type="text" th:field="*{height}" id="Height" placeholder="Height"></td>
+        </tr>
+        <tr>
+            <td> <label>Weight</label></td>
+            <td> <input type="text" th:field="*{weight}" id="Weight" placeholder="Weight"></td>
+        </tr>
+        <tr>
+            <td> <label>Eyes</label></td>
+            <td> <input type="text" th:field="*{eyes}" id="Eyes" placeholder="Eyes"></td>
+        </tr>
+        <tr>
+            <td> <label>Hair</label></td>
+            <td> <input type="text" th:field="*{hair}" id="Hair" placeholder="Hair"></td>
+        </tr>
+        <tr>
+            <td> <label>Gender</label></td>
+            <td> <input type="text" th:field="*{gender}" id="Gender" placeholder="Gender"></td>
+        </tr>
+        <tr>
+            <td> <label>Universe</label></td>
+            <td> <input type="text" th:field="*{universe}" id="Universe" placeholder="Universe"></td>
+        </tr>
+        <tr>
+            <td> <label>Education</label></td>
+            <td> <textarea cols="40" rows="3" type="text" th:field="*{education}" id="Education" placeholder="Education"></textarea></td>
+        </tr>
+        <tr>
+            <td> <label>Place Of Origin</label></td>
+            <td> <textarea cols="40" rows="3" type="text" th:field="*{placeoforigin}" id="Placeoforigin"
+                           placeholder="Placeoforigin"></textarea></td>
+        </tr>
+        <tr>
+            <td> <label>Identity</label></td>
+            <td> <input type="text" th:field="*{identity}" id="Identity" placeholder="Identity"></td>
+        </tr>
+        <tr>
+            <td> <label>Knownrelatives</label></td>
+            <td> <textarea cols="40" rows="3" type="text" th:field="*{knownrelatives}"
+                           id="Knownrelatives" placeholder="Knownrelatives"></textarea></td>
+        </tr>
+        <tr>
+            <td> <label>Powers</label></td>
+            <td> <textarea cols="40" rows="3"  type="text" th:field="*{powers}"
+                           id="Powers" placeholder="Powers"></textarea></td>
+        </tr>
+        <tr>
+            <td> <label>Groupaffiliation</label></td>
+            <td> <input type="text" th:field="*{groupaffiliation}" id="Groupaffiliation" placeholder="Groupaffiliation"></td>
+        </tr>
+        <tr>
+            <td> <label>Overview</label></td>
+            <td> <textarea cols="40" rows="3" type="text" th:field="*{overview}"
+                           id="Overview" placeholder="Overview"></textarea></td>
+        </tr>
+        <tr>
+            <td> <label>Biography</label></td>
+            <td> <textarea cols="40" rows="3"  type="text" th:field="*{biography}" id="Biography" placeholder="Biography"></textarea></td>
+        </tr>
+    </table>
+
+    <input type="submit" value="Add Character">
+</form>
+</body>
+</html>

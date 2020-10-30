@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>ComicsCreate</title>
+</head>
+<body>
+<a href="/">Start Page</a><br>
+<a href="/admin">Main menu</a>
+<a href="/search">Search</a>
+<br>
+<form th:object="${comics}" method="post">
+    <input type="submit" value="Add Comics"><br>
+    <a th:if="${hardCase} < 1">problems with comics uniqueness</a>
+    <table border="1" width="1%" cellpadding="5">
+        <tr>
+            <td><label>ComicsTitle</label></td>
+            <td><input required type="text" th:field="*{comicTitle}" id="comictitle" placeholder="comictitle"></td>
+        </tr>
+        <tr>
+            <td><label>Issue</label></td>
+            <td><input required type="text" th:field="*{issue}" id="issue" placeholder="issue"></td>
+        </tr>
+        <tr>
+            <td><label>Writer</label></td>
+            <td><input type="text" th:field="*{writer}" id="writer" placeholder="writer"></td>
+        </tr>
+        <tr>
+            <td><label>Penciler</label></td>
+            <td><input type="text" th:field="*{penciler}" id="penciler" placeholder="penciler"></td>
+        </tr>
+        <tr>
+            <td><label>Published</label></td>
+            <td><input required type="date" th:field="*{published}" id="published" placeholder="published"></td>
+        </tr>
+        <tr>
+            <td><label>Created</label></td>
+            <td><input type="text" th:field="*{created}" id="created" placeholder="created"></td>
+        </tr>
+    </table>
+    <input type="submit" value="Add Comics">
+
+</form>
+</body>
+</html>

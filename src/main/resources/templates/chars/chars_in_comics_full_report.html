@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>CharFullReport</title>
+</head>
+<form th:method="GET">
+<a href="/">Start Page</a><br>
+<a href="/characters">Characters</a>
+<a href="/comics">Comics</a>
+<a href="/search">Search</a>
+<br>
+<br>
+<div>
+    <img th:src="|/img/characters/img/${chars.getAliases()}.jpg|"
+         width="189" height="255" alt="No picture at the moment"/>
+    <br>
+    <br>
+    <a th:text="${chars.getAliases()}"></a>
+    <br>
+    <a th:text="${chars.getName()}"></a>
+    <a th:text="${chars.getSecondName()}"></a>
+    <br>
+    <br>
+    <a th:text="${chars.getOverview()}"></a>
+    <br>
+    <p><a th:href="@{/characters/{id}(id=${chars.getId()})}">OVERVIEW</a> | <a
+            th:href="@{/characters/{id}/in-comics/profile(id=${chars.getId()})}">IN COMICS PROFILE</a> |
+        <a th:href="@{/characters/{id}/in-comics(id=${chars.getId()})}">IN COMICS FUEL REPORT</a></p>
+</div>
+
+<div>
+    <table border="1">
+        <tr>
+            <td>HEIGHT:</td>
+            <td><a th:text="${chars.height}"> height</a></td>
+            <td>|</td>
+            <td>EYES:</td>
+            <td><a th:text="${chars.eyes}"> eyes</a></td>
+        </tr>
+        <tr>
+            <td>WEIGHT:</td>
+            <td><a th:text="${chars.weight}"> weight</a></td>
+            <td>|</td>
+            <td>HAIR:</td>
+            <td><a th:text="${chars.hair}"> hair</a></td>
+        </tr>
+        <tr>
+            <td>GENDER:</td>
+            <td><a th:text="${chars.gender}"> gender</a></td>
+            <td>|</td>
+
+        </tr>
+    </table>
+
+    <br>
+    <table border="1">
+        <tr>
+            <td>UNIVERSE</td>
+            <td><a th:text="${chars.universe}"> UNIVERSE</a></td>
+        </tr>
+        <tr>
+            <td>OTHER ALIASES</td>
+            <td><a th:text="${chars.otheraliases}"> OTHER ALIASES</a></td>
+        </tr>
+        <tr>
+            <td>EDUCATION</td>
+            <td><a th:text="${chars.education}"> EDUCATION</a></td>
+        </tr>
+        <tr>
+            <td>EDUCATION</td>
+            <td><a th:text="${chars.placeoforigin}"> PLACE OF ORIGIN</a></td>
+        </tr>
+        <tr>
+            <td>IDENTITY</td>
+            <td><a th:text="${chars.identity}"> IDENTITY</a></td>
+        </tr>
+        <tr>
+            <td>KNOWN RELATIVES</td>
+            <td><a th:text="${chars.knownrelatives}"> KNOWN RELATIVES</a></td>
+        </tr>
+        <tr>
+            <td>POWERS</td>
+            <td><a th:text="${chars.powers}"> POWERS</a></td>
+        </tr>
+        <tr>
+            <td>GROUP AFFILIATION</td>
+            <td><a th:text="${chars.groupaffiliation}"> GROUP AFFILIATION</a></td>
+        </tr>
+        <tr>
+            <td>BIOGRAPHY</td>
+            <td><a th:text="${chars.biography}"> BIOGRAPHY</a></td>
+        </tr>
+    </table>
+</div>
+</form>
+</body>
+</html>

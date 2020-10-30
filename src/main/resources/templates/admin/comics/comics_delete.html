@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>CharsUpDate</title>
+</head>
+<body>
+<a href="/">Start Page</a><br>
+<a href="/admin">Main menu</a>
+<a href="/search">Search</a>
+<br>
+<form th:method="GET">
+    <input name="inquiry" placeholder="Search" th:value="${inquiry}">
+    <input type="submit" value="Search">
+
+    <div th:if="${inquiry}!=null">
+        <table border="1" width="50%" cellpadding="5">
+            <tr th:each="comics : ${comics}">
+                <td><a th:text="|${comics.getComicTitle()} (${comics.getCreated()}) #${comics.getIssue()}|"></a></td>
+                <td><a th:href="@{delete/{id}(id=${comics.id})}">Delete</a></td>
+            </tr>
+        </table>
+    </div>
+</form>
+</body>
+</html>

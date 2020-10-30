@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>SEARCH</title>
+</head>
+<body>
+<a href="/">Start Page</a><br>
+<form   th:object="${page}" th:method="get">
+    <div th:if="${query}!= null">
+        <div>
+        <input name="query" th:value="${query}">
+            <input type="submit" value="Search">
+            <div th:if="${content} != null">
+                <input name="content" hidden="true" th:value="${content}">
+            </div>
+        </div>
+        <a th:href="|@{/search?content=all&query=}${query}|">ALL</a>
+        <a th:href="|@{/search?content=characters&query=}${query}|">CHARACTERS</a>
+        <a th:href="|@{/search?content=comics&query=}${query}|">COMICS</a>
+        <div th:if="${content} == comics">
+            <div>
+                <a>SORT BY :</a>
+                <a th:href="|@{/search?content=comics&sortBy=comicTitle&query=}${query}|">Comic Title</a>
+                |
+                <a th:href="|@{/search?content=comics&sortBy=issue&query=}${query}|">Issue</a>
+                |
+                <a th:href="|@{/search?content=comics&sortBy=published&query=}${query}|">Publishe</a>
+                |
+                <a th:href="|@{/search?content=comics&sortBy=selled&query=}${query}|">Popularity</a>
+            </div>
+            <div>
+                <a>DIRECTION BY :</a>
+                <a th:href="|@{/search?content=comics&sortBy=}${sortBy}&directionBy=ASC&query=${query}|">↓</a>
+                |
+                <a th:href="|@{/search?content=comics&sortBy=}${sortBy}&directionBy=DESC&query=${query}|">↑</a>
+            </div>
+            <table border="0" width="300px">
+                <thead>
+                <tr>
+                    <th:block th:each="page : ${page}">
+                        <th><a th:href="@{comics/{id}(id=${page.getId()})}"
+                               th:text="|${page.getComicTitle()} ( ${page.getCreated()} ) # ${page.getIssue()}|"
+                        > aliases</a>
+                        </th>
+                    </th:block>
+                </tr>
+                </thead>
+
+                <tr>
+                    <th:block th:each="page : ${page}">
+                        <th>
+                            <img th:src="|/img/comics/img/${page.getComicTitle()}${page.getCreated()}${page.getIssue()}.jpg|"
+                                 width="189" height="255" alt="No picture at the moment"/>
+                        </th>
+                    </th:block>
+                </tr>
+            </table>
+        </div>
+        <div th:if="${content} == characters">
+            <div>
+                <a>SORT BY :</a>
+                <a th:href="|@{/search?content=characters&sortBy=name&query=}${query}|">Name</a>
+                |
+                <a th:href="|@{/search?content=characters&sortBy=secondname&query=}${query}|">Second Name</a>
+                |
+                <a th:href="|@{/search?content=characters&sortBy=aliases&query=}${query}|">Aliases</a>
+                |
+                <a th:href="|@{/search?content=characters&sortBy=gender&query=}${query}|">Gender</a>
+            </div>
+            <div>
+                <a>DIRECTION BY :</a>
+                <a th:href="|@{/search?content=characters&sortBy=}${sortBy}&directionBy=ASC&query=${query}|">↓</a>
+                |
+                <a th:href="|@{/search?content=characters&sortBy=}${sortBy}&directionBy=DESC&query=${query}|">↑</a>
+            </div>
+            <table border="0" width="10%">
+                <thead>
+                <tr>
+                    <th:block th:each="page : ${page}">
+                        <th><a th:href="@{characters/{id}(id=${page.getId()})}"
+                               th:utext="|${page.getAliases()} &lt;br/&gt; ${page.getName()}   ${page.getSecondName()}|"
+                        > aliases</a>
+                        </th>
+                    </th:block>
+                </tr>
+                </thead>
+
+                <tr>
+                    <th:block th:each="page : ${page}">
+                        <th>
+                            <img th:src="|/img/characters/img/${page.getAliases()}.jpg|"
+                                 width="189" height="255" alt="No picture at the moment"/>
+                        </th>
+                    </th:block>
+                </tr>
+            </table>
+        </div>
+        <div th:if="${content} == all">
+            <table border="0" width="300px">
+                <thead>
+                <tr>
+                    <th:block th:each="page : ${pageChar}">
+                        <th><a th:href="@{characters/{id}(id=${page.getId()})}"
+                               th:utext="|${page.getAliases()} &lt;br/&gt; ${page.getName()}  ${page.getSecondName()}|"> aliases</a>
+                        </th>
+                    </th:block>
+                </tr>
+                </thead>
+
+                <tr>
+                    <th:block th:each="page : ${pageChar}">
+                        <th>
+                            <img th:src="|/img/characters/img/${page.getAliases()}.jpg|"
+                                 width="189" height="255" alt="No picture at the moment"/>
+                        </th>
+                    </th:block>
+                </tr>
+            </table>
+            <table border="0" width="300px">
+                <thead>
+                <tr>
+                    <th:block th:each="page : ${pageCom}">
+                        <th><a th:href="@{comics/{id}(id=${page.getId()})}"
+                               th:text="|${page.getComicTitle()} ( ${page.getCreated()} ) # ${page.getIssue()}|"
+                        >ComicTitle</a>
+                        </th>
+                    </th:block>
+                </tr>
+                </thead>
+
+                <tr>
+                    <th:block th:each="page : ${pageCom}">
+                        <th>
+                            <img th:src="|/img/comics/img/${page.getComicTitle()}${page.getCreated()}${page.getIssue()}.jpg|"
+                                 width="189" height="255" alt="No picture at the moment"/>
+                        </th>
+                    </th:block>
+                </tr>
+            </table>
+
+    </div>
+    </div>
+    <div th:if="${query} == null">
+        <div>
+            <input name="query">
+            <input type="submit" value="Search">
+            <input name="content" value="all" hidden="true">
+        </div>
+        <a href="/search?content=all">ALL</a>
+        <a href="/search?content=characters">CHARACTERS</a>
+        <a href="/search?content=comics">COMICS</a>
+    </div>
+</form>
+
+<div th:if="${content} != null">
+    <input name="content" hidden="true" th:value="${content}">
+</div>
+</body>
+</html>

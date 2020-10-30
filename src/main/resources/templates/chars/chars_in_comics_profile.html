@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>CharInComicsAdmin</title>
+</head>
+<body>
+<a href="/">Start Page</a><br>
+<a href="/characters">Characters</a>
+<a href="/comics">Comics</a>
+<a href="/search">Search</a>
+<br>
+<br>
+<form  th:object="${chars}" th:method="GET">
+    <img th:src="|/img/characters/img/${chars.getAliases()}.jpg|"
+         width="189" height="255" alt="No picture at the moment"/>
+    <br>
+    <br>
+    <a th:text="${chars.getAliases()}"></a>
+    <br>
+    <a th:text="${chars.getName()}"></a>
+    <a th:text="${chars.getSecondName()}"></a>
+    <br>
+    <br>
+    <a th:text="${chars.getOverview()}"></a>
+    <br>
+    <p><a th:href="@{/characters/{id}(id=${chars.getId()})}">OVERVIEW</a> | <a th:href="@{/characters/{id}/in-comics/profile(id=${chars.getId()})}">IN COMICS PROFILE</a> |
+        <a th:href="@{/characters/{id}/in-comics(id=${chars.getId()})}">IN COMICS FUEL REPORT</a></p>
+</form>
+<tr th:each="comics : ${comics}">
+    <td><a th:href="@{/comics/{id}(id=${comics.id})}" th:text="${comics.getComicTitle()}">name</a></td><br>
+</tr>
+</body>
+</html>

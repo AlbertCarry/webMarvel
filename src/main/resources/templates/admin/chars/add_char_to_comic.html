@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>AddCharToComic</title>
+</head>
+<body>
+<a href="/">Start Page</a><br>
+<a href="/admin">Main menu</a>
+<a href="/search">Search</a>
+<br>
+<table border="2" width="50%">
+    <tr>
+        <th>
+            Choose Character
+        </th>
+        <th>
+            Choose Comics
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <form th:method="GET">
+                <input name="queryChar" type="text" th:value="${queryChar}">
+                <input hidden="true" name="queryComic" type="text" th:value="${queryComic}">
+                <input type="submit" value="Search Character">
+            </form>
+        </td>
+        <td>
+            <form th:method="GET">
+                <input name="queryComic" type="text" th:value="${queryComic}">
+                <input hidden="true" name="queryChar" type="text" th:value="${queryChar}">
+                <input type="submit" value="Search Comics">
+            </form>
+        </td>
+    </tr>
+</table>
+<form th:method="POST">
+    <tr>
+        <td>
+            <select name="charId">
+                <option th:each="char : ${chars}"
+                        th:text="${char.getAliases()}" th:value="${char.getId()}"></option>
+            </select>
+        </td>
+        <td>
+            <select name="comicId">
+                <option th:each="comic : ${comics}"
+                        th:text="|${comic.getComictitle()} ( ${comic.getCreated()} ) #${comic.getIssue()} |"
+                        th:value="${comic.getId()}"></option>
+            </select>
+        </td>
+        <input type="submit">
+    </tr>
+</form>
+</body>
+</html>

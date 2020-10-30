@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Characters</title>
+</head>
+<body>
+<a href="/">Start Page</a><br>
+<a href="/characters">Characters</a>
+<a href="/comics">Comics</a>
+<a href="/search">Search</a>
+<br>
+<br>
+<form>
+    <table  width="300px">
+        <thead>
+        <tr>
+            <th:block th:each="page : ${page}">
+                <th><a th:href="@{characters/{id}(id=${page.getId()})}"
+                       th:text="|${page.getAliases()} |"
+                > Aliases</a>
+                </th>
+            </th:block>
+        </tr>
+        </thead>
+
+        <tr>
+            <th:block th:each="page : ${page}">
+                <th>
+                    <img th:src="|/img/characters/img/${page.getAliases()}.jpg|"
+                         width="189" height="255" alt="No picture at the moment"/>
+                </th>
+            </th:block>
+        </tr>
+    </table>
+
+
+    <ul class="pagination">
+        <section th:if="${page.getTotalPages()} <= 6">
+            <a class="page-link" th:if="${page.getPageable().getPageNumber()+1} > 1"
+               th:href="@{?page={page}(page=${page.getPageable().getPageNumber()-1})}">Previous</a>
+            <tr th:each="n: ${#numbers.sequence(1,page.getTotalPages())}">
+                <td>
+                    <a class="page-link" th:href="@{?page={n}(n=${n-1})}" th:text="${n}">${page}</a>
+                </td>
+            </tr>
+            <a class="page-link" th:if="${page.getPageable().getPageNumber()}+1 < ${page.getTotalPages()}"
+               th:href="@{?page={page}(page=${page.getPageable().getPageNumber()+1})}">Next</a>
+        </section>
+
+        <section th:if="${page.getTotalPages()} > 6">
+            <a class="page-link" th:if="${page.getPageable().getPageNumber()}+1 > 1"
+               th:href="@{?page={page}(page=${page.getPageable().getPageNumber()-1})}">Previous</a>
+            <a class="page-link" th:href="@{?page=0}" >1</a>
+            <a class="page-link" th:if="${page.getPageable().getPageNumber()} >=1 ">...</a>
+
+            <tr  th:if="${page.getPageable().getPageNumber()}+1 < ${page.getTotalPages()}-3"
+                 th:each="n: ${#numbers.sequence(page.getPageable().getPageNumber()+2,page.getPageable().getPageNumber()+4)}">
+                <td>
+                    <a class="page-link" th:href="@{?page={n}(n=${n-1})}" th:text="${n}">${page}</a>
+                </td>
+            </tr>
+            <selection th:if="${page.getPageable().getPageNumber()}+1 < ${page.getTotalPages()}-3">
+                <a class="page-link" th:if="${page.getPageable().getPageNumber()} +5 != ${page.getTotalPages()}">...</a>
+                <a class="page-link" th:href="@{?page={page}(page=${page.getTotalPages()} -1)}" th:text="${page.getTotalPages()}">pageoff</a>
+            </selection>
+            <tr  th:if="${page.getPageable().getPageNumber()}+1 > ${page.getTotalPages()-4}"
+                 th:each="n: ${#numbers.sequence(page.getTotalPages()-3,page.getTotalPages())}">
+                <td>
+                    <a class="page-link" th:href="@{?page={n}(n=${n-1})}" th:text="${n}">${page}</a>
+                </td>
+            </tr>
+
+            <a class="page-link" th:if="${page.getPageable().getPageNumber()}+1 < ${page.getTotalPages()}"
+               th:href="@{?page={page}(page=${page.getPageable().getPageNumber()+1})}">Next</a>
+        </section>
+        <br>
+        Page:<a th:href="@{?page={page}(page=${page.getPageable().getPageNumber()})}"
+                th:text="${page.getPageable().getPageNumber()}+1"> thisPage</a>
+    </ul>
+</form>
+</body>
+</html>

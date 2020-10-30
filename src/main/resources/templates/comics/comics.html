@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Comics</title>
+</head>
+<body>
+<a href="/">Start Page</a><br>
+<a href="/characters">Characters</a>
+<a href="/comics">Comics</a>
+<a href="/search">Search</a><br>
+
+<br>
+<br>
+<br>
+<form th:method="GET">
+    <img th:src="|/img/comics/img/${comics.getComicTitle()}${comics.getCreated()}${comics.getIssue()}.jpg|"
+         width="189" height="255" alt="No picture at the moment"/>
+    <p>
+       <h2><a th:text="${comics.getComicTitle()}"></a> (<a th:text="${comics.getCreated()}"></a>) #<a th:text="${comics.getIssue()}"></a></h2>
+    </p>
+    <p>
+        Published: <a th:text="${comics.getPublished()}"></a><br>
+        Writer:    <a th:text="${comics.getWriter()}"></a><br>
+        Penciler:  <a th:text="${comics.getPenciler()}"></a><br>
+    </p>
+
+    <a th:href="@{/comics/{id}/characters(id=${comics.id})}">Characters in comics</a>
+</form>
+</body>
+</html>
