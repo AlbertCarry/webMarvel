@@ -3,7 +3,7 @@ package com.marvel.controller;
 
 import com.marvel.config.ResponseConfig;
 import com.marvel.model.Characters;
-import com.marvel.service.CharactersService;
+import com.marvel.service.CharactersServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +25,10 @@ import java.util.Map;
 @Api(value = "Getting characters")
 public class CharactersController {
 
-    private final CharactersService charactersService;
+    private final CharactersServiceImpl charactersServiceImpl;
     @Autowired
-    public CharactersController(CharactersService charactersService) {
-        this.charactersService = charactersService;
+    public CharactersController(CharactersServiceImpl charactersServiceImpl) {
+        this.charactersServiceImpl = charactersServiceImpl;
 
     }
 
@@ -38,7 +38,7 @@ public class CharactersController {
     public String getAllCharacters(
             @PageableDefault(sort = { "aliases" },size = 6,direction = Sort.Direction.DESC)
                                             Pageable pageable,Model model) {
-        Page<Characters> page = charactersService.getAll(pageable);
+        Page<Characters> page = charactersServiceImpl.getAll(pageable);
         if (page.isEmpty()  || page.getPageable().getPageNumber()+1>page.getTotalPages())
             throw new ResponseConfig.Char();
         model.addAttribute("countPage",page.getTotalPages());
@@ -49,18 +49,18 @@ public class CharactersController {
     @GetMapping("/{id}")
     @ApiOperation(value = "Returns character by id")
     public String getCharactersById(@PathVariable("id") Long id, Model model) {
-        if (!charactersService.isExist(id))
+        if (!charactersServiceImpl.isExist(id))
         throw new ResponseConfig.Char();
-            model.addAttribute("chars", charactersService.getById(id));
+            model.addAttribute("chars", charactersServiceImpl.getById(id));
             return "chars/chars_by_id";
     }
 
     @GetMapping("/{id}/in-comics")
     @ApiOperation(value = "Returns full character report")
     public String getCharactersFullReport(@PathVariable("id") Long id, Model model) {
-        if (!charactersService.isExist(id))
+        if (!charactersServiceImpl.isExist(id))
             throw new ResponseConfig.Char();
-        model.addAttribute("chars", charactersService.getById(id));
+        model.addAttribute("chars", charactersServiceImpl.getById(id));
         return "/chars/chars_in_comics_full_report";
     }
 
@@ -69,11 +69,11 @@ public class CharactersController {
     public String getCharactersInComics(
             @PathVariable("id") Long id,
             Model model) {
-        if (!charactersService.isExist(id))
+        if (!charactersServiceImpl.isExist(id))
             throw new ResponseConfig.Char();
         Map<String, Object> charactersServiceMap = new HashMap<>();
-        charactersServiceMap.put("comics", charactersService.byComics(id));
-        charactersServiceMap.put("chars", charactersService.getById(id));
+        charactersServiceMap.put("comics", charactersServiceImpl.byComics(id));
+        charactersServiceMap.put("chars", charactersServiceImpl.getById(id));
         model.addAllAttributes(charactersServiceMap);
         return "chars/chars_in_comics_profile";
     }

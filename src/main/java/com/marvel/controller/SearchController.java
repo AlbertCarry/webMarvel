@@ -2,13 +2,11 @@ package com.marvel.controller;
 
 
 
-import com.marvel.model.Comics;
-import com.marvel.service.CharactersService;
-import com.marvel.service.ComicsService;
+import com.marvel.service.CharactersServiceImpl;
+import com.marvel.service.ComicsServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,13 +21,13 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "Search Comic or Character")
 public class SearchController {
 
-    private final CharactersService charactersService;
-    private final ComicsService comicsService;
+    private final CharactersServiceImpl charactersServiceImpl;
+    private final ComicsServiceImpl comicsServiceImpl;
 
     @Autowired
-    public SearchController(CharactersService charactersService, ComicsService comicsService) {
-        this.charactersService = charactersService;
-        this.comicsService = comicsService;
+    public SearchController(CharactersServiceImpl charactersServiceImpl, ComicsServiceImpl comicsServiceImpl) {
+        this.charactersServiceImpl = charactersServiceImpl;
+        this.comicsServiceImpl = comicsServiceImpl;
     }
 
     @GetMapping()
@@ -58,11 +56,11 @@ public class SearchController {
                         model.addAttribute("content",content);
                         model.addAttribute("query",query);
 
-                        model.addAttribute("pageChar",charactersService.getAll(query,pageable));
-                        model.addAttribute("pageCom",comicsService.getAll(query,pageable));
+                        model.addAttribute("pageChar", charactersServiceImpl.getAll(query,pageable));
+                        model.addAttribute("pageCom", comicsServiceImpl.getAll(query,pageable));
                     }else {
-                        model.addAttribute("pageChar", charactersService.getAll(pageable));
-                        model.addAttribute("pageCom", comicsService.getAll(pageable));
+                        model.addAttribute("pageChar", charactersServiceImpl.getAll(pageable));
+                        model.addAttribute("pageCom", comicsServiceImpl.getAll(pageable));
                     }
                     break;
                 case ("characters"):
@@ -70,9 +68,9 @@ public class SearchController {
                         query = query.toUpperCase();
                         model.addAttribute("content",content);
                         model.addAttribute("query",query);
-                        model.addAttribute("page",charactersService.getAll(query,pageable));
+                        model.addAttribute("page", charactersServiceImpl.getAll(query,pageable));
                     }else {
-                        model.addAttribute("page", charactersService.getAll(pageable));
+                        model.addAttribute("page", charactersServiceImpl.getAll(pageable));
                     }
                     break;
                 case ("comics"):
@@ -81,9 +79,9 @@ public class SearchController {
                         query = query.substring(0, 1).toUpperCase() + query.substring(1).toLowerCase();
                         model.addAttribute("content",content);
                         model.addAttribute("query",query);
-                        model.addAttribute("page",comicsService.getAll(query,pageable));
+                        model.addAttribute("page", comicsServiceImpl.getAll(query,pageable));
                     }else {
-                        model.addAttribute("page", comicsService.getAll(pageable));
+                        model.addAttribute("page", comicsServiceImpl.getAll(pageable));
                     }
                     break;
             }

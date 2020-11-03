@@ -5,8 +5,8 @@ import com.marvel.model.Characters;
 import com.marvel.model.CharactersComics;
 import com.marvel.model.Comics;
 import com.marvel.repository.CharactersComicsRepository;
-import com.marvel.service.CharactersService;
-import com.marvel.service.ComicsService;
+import com.marvel.service.CharactersServiceImpl;
+import com.marvel.service.ComicsServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +28,13 @@ import java.io.IOException;
 @RequestMapping("/admin")
 @Api(value = "CRUD operation")
 public class AdminController {
-    private final CharactersService charactersService;
-    private final ComicsService comicsService;
+    private final CharactersServiceImpl charactersServiceImpl;
+    private final ComicsServiceImpl comicsServiceImpl;
     private final CharactersComicsRepository charactersComicsRepository;
     @Autowired
-    public AdminController(CharactersService charactersService, ComicsService comicsService, CharactersComicsRepository charactersComicsRepository) {
-        this.charactersService = charactersService;
-        this.comicsService = comicsService;
+    public AdminController(CharactersServiceImpl charactersServiceImpl, ComicsServiceImpl comicsServiceImpl, CharactersComicsRepository charactersComicsRepository) {
+        this.charactersServiceImpl = charactersServiceImpl;
+        this.comicsServiceImpl = comicsServiceImpl;
         this.charactersComicsRepository = charactersComicsRepository;
     }
 
@@ -73,10 +73,10 @@ public class AdminController {
     public String postAddCharacter(@RequestParam(value = "hardCase",defaultValue = "1") Integer hardCase
             ,Characters characters,Model model) {
         model.addAttribute("hardCase",hardCase);
-       if(charactersService.getByAliases(characters.getAliases())){
+       if(charactersServiceImpl.getByAliases(characters.getAliases())){
            return "redirect:/admin/characters/create?hardCase=0";
        }
-        charactersService.add(characters);
+        charactersServiceImpl.add(characters);
         return "redirect:/admin";
     }
 
@@ -90,9 +90,9 @@ public class AdminController {
                                   Model model){
         if (inquiry!=null && !inquiry.equals("")){
             inquiry = inquiry.toUpperCase();
-            model.addAttribute("chars",charactersService.getAllByValue(inquiry,pageable));
+            model.addAttribute("chars", charactersServiceImpl.getAllByValue(inquiry,pageable));
             if (id!=null) {
-                model.addAttribute("chars", charactersService.getById(id));
+                model.addAttribute("chars", charactersServiceImpl.getById(id));
             }
             model.addAttribute("inquiry",inquiry);
             model.addAttribute("id",id);
@@ -105,7 +105,7 @@ public class AdminController {
     public String putUpDateCharacter(@RequestParam(value = "inquiry",required = false) String inquiry,
             @ModelAttribute("char") Characters characters) {
 //       Validation logic before update
-        charactersService.upDate(characters);
+        charactersServiceImpl.update(characters);
         return "redirect:/admin/characters/update";
     }
 
@@ -121,7 +121,7 @@ public class AdminController {
         if (inquiry!=null && !inquiry.equals("")) {
             inquiry = inquiry.toUpperCase();
             model.addAttribute("inquiry", inquiry);
-            model.addAttribute("chars", charactersService.getAllByValue(inquiry, pageable));
+            model.addAttribute("chars", charactersServiceImpl.getAllByValue(inquiry, pageable));
         }
         return "admin/chars/char_delete";
     }
@@ -129,9 +129,9 @@ public class AdminController {
     @GetMapping("characters/delete/{id}")
     @ApiOperation(value = "Delete character from db")
     public String postDeleteCharacters(@PathVariable("id") Long id) {
-        if (!charactersService.isExist(id))
+        if (!charactersServiceImpl.isExist(id))
             throw new ResponseConfig.Char();
-        charactersService.remove(id);
+        charactersServiceImpl.remove(id);
         return "redirect:/admin/characters/delete";
     }
 
@@ -146,14 +146,14 @@ public String getAddCharToComic(@RequestParam(value = "queryChar",required = fal
         if (queryChar!=null && !queryChar.equals("")){
             queryChar = queryChar.toUpperCase();
             model.addAttribute("queryChar",queryChar);
-            model.addAttribute("chars",charactersService.getAll(queryChar,pageable));
+            model.addAttribute("chars", charactersServiceImpl.getAll(queryChar,pageable));
         }
     if (queryComic!=null && !queryComic.equals("")){
         Sort sort = Sort.by("published").ascending();
         pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
         queryComic = queryComic.substring(0,1).toUpperCase()+queryComic.substring(1);
         model.addAttribute("queryComic",queryComic);
-        model.addAttribute("comics",comicsService.getAll(queryComic,pageable));
+        model.addAttribute("comics", comicsServiceImpl.getAll(queryComic,pageable));
     }
 
         return "admin/chars/add_char_to_comic";
@@ -164,7 +164,7 @@ public String getAddCharToComic(@RequestParam(value = "queryChar",required = fal
     public String postCharToComic(
             @RequestParam(value = "charId",required = false) Long charId,
             @RequestParam(value = "comicId",required = false) Long comicId) {
-        if (!comicsService.isExist(comicId)||!charactersService.isExist(charId)) {
+        if (!comicsServiceImpl.isExist(comicId)||!charactersServiceImpl.isExist(charId)) {
             throw new ResponseConfig.Char();
         }
             CharactersComics charactersComics = new CharactersComics();
@@ -198,10 +198,10 @@ public String getAddCharToComic(@RequestParam(value = "queryChar",required = fal
     public String postAddCharacter(@RequestParam(value = "hardCase",defaultValue = "1") Integer hardCase
             ,Comics comics,Model model) {
         model.addAttribute("hardCase",hardCase);
-        if(comicsService.getByThree(comics.getComicTitle(),comics.getIssue(),comics.getPublished())){
+        if(comicsServiceImpl.getByThree(comics.getComicTitle(),comics.getIssue(),comics.getPublished())){
             return "redirect:/admin/comics/create?hardCase=0";
         }
-        comicsService.add(comics);
+        comicsServiceImpl.add(comics);
         return "redirect:/admin";
     }
 //----------------------------------UpDateComics-----------------------------------------------
@@ -214,9 +214,9 @@ public String getUpDateComics(@RequestParam(value = "inquiry",required = false) 
     if (inquiry!=null && !inquiry.equals("")){
         inquiry = inquiry.toLowerCase();
         inquiry = inquiry.substring(0,1).toUpperCase()+inquiry.substring(1);
-        model.addAttribute("comics",comicsService.getAll(inquiry,pageable));
+        model.addAttribute("comics", comicsServiceImpl.getAll(inquiry,pageable));
         if (id!=null ) {
-            model.addAttribute("comics", comicsService.getById(id));
+            model.addAttribute("comics", comicsServiceImpl.getById(id));
         }
         model.addAttribute("inquiry",inquiry);
         model.addAttribute("id",id);
@@ -229,7 +229,7 @@ public String getUpDateComics(@RequestParam(value = "inquiry",required = false) 
     public String putUpDateComics(@RequestParam(value = "inquiry",required = false) String inquiry,
                                      @ModelAttribute("comics") Comics comics) {
         //       Validation logic before update
-        comicsService.upDate(comics);
+        comicsServiceImpl.update(comics);
         return "redirect:/admin/comics/update";
     }
 
@@ -244,7 +244,7 @@ public String getDeleteComics(@RequestParam(value = "inquiry",required = false)S
         inquiry = inquiry.toLowerCase();
         inquiry = inquiry.substring(0,1).toUpperCase()+inquiry.substring(1);
         model.addAttribute("inquiry", inquiry);
-        model.addAttribute("comics", comicsService.getAll(inquiry, pageable));
+        model.addAttribute("comics", comicsServiceImpl.getAll(inquiry, pageable));
     }
     return "admin/comics/comics_delete";
 }
@@ -252,9 +252,9 @@ public String getDeleteComics(@RequestParam(value = "inquiry",required = false)S
     @GetMapping("comics/delete/{id}")
     @ApiOperation(value = "Delete comics from db")
     public String postDeleteComics(@PathVariable("id") Long id) {
-        if (!comicsService.isExist(id))
+        if (!comicsServiceImpl.isExist(id))
             throw new ResponseConfig.Char();
-        comicsService.remove(id);
+        comicsServiceImpl.remove(id);
         return "redirect:/admin/comics/delete";
     }
 

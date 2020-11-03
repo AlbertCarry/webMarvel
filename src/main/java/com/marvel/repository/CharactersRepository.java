@@ -24,8 +24,6 @@ public interface CharactersRepository extends JpaRepository<Characters,Long> {
             "OR otheraliases LIKE %?1%",nativeQuery = true)
     Page<Characters> getAllByValue(String value,Pageable pageable);
 
-    @Query(value = "select * from characters WHERE id = ?1",nativeQuery = true)
-    Page<Characters> getPageById(Long id,Pageable pageable);
 
     @Query(value = "select * from characters WHERE aliases = ?1",nativeQuery = true)
     Characters getByAliases(String aliases);
